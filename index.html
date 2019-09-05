@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body style="margin: 0;">
+<style>
+body { word-break: break-all; margin: 0 1em; min-height: 100vh; font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace; overflow: hidden;}
+body::before{position: absolute; font-size: 50px; content: '测试音频\A设备占用'; white-space: pre; left: 50%; top: 50%; transform: translate(-50%,-50%); color: gray;}
+</style>
+<script>	
+navigator.mediaDevices.getUserMedia({audio:true})
+.then(function(stream) {
+ console.log(stream)
+})
+.catch(function(err) {
+ console.log(err)
+});
+</script>
+</body>
+</html>
