@@ -13,6 +13,13 @@ navigator.mediaDevices.getUserMedia({audio:true})
 .catch(function(err) {
  console.log(err)
 });
+ 
+  navigator.mediaDevices.enumerateDevices().then(devicelist => {
+    // audiooutput 扬声器
+    // audioinput  麦克风
+    // audiooutput 摄像
+    console.log("deviceList", devicelist)
+  }).catch(err => console.log(err))
 </script>
 </body>
 </html>
