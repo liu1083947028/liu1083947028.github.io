@@ -41,7 +41,7 @@ button{
 		container.innerHTML = container.innerHTML + `<div>已获取音频设备权限</div> <button onclick="stopAudio(this)">停止</button>`;
 		mediaStream = stream;
 		var audio = document.getElementById("audio");
-		audio.src = window.URL.createObjectURL(stream);
+		//audio.src = window.URL.createObjectURL(stream);
 		console.log(stream)
 	}).catch(function(err) {
 		container.innerHTML = container.innerHTML + `<div>获取音频权限失败: ${err}</div>`;
