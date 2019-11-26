@@ -1,25 +1,39 @@
 <!DOCTYPE html>
-<html>
-<body style="margin: 0;">
+<!-- saved from url=(0032)https://liu1083947028.github.io/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body style="margin: 0;">
 <style>
 body { word-break: break-all; margin: 0 1em; min-height: 100vh; font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace; overflow: hidden;}
-body::before{position: absolute; font-size: 50px; content: '测试音频\A设备占用'; white-space: pre; left: 50%; top: 50%; transform: translate(-50%,-50%); color: gray;}
+#container{
+	height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	flex-direction: column;
+}
 </style>
 <script>	
-navigator.mediaDevices.getUserMedia({audio:true})
-.then(function(stream) {
- console.log(stream)
-})
-.catch(function(err) {
- console.log(err)
+navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream) {
+	console.log(stream)
+}).catch(function(err) {
+	document.getElementById("container").innerHTML = document.getElementById("container").innerHTML + `<div>获取音频权限失败: ${err}</div>`;
+	console.log(err)
 });
  
-  navigator.mediaDevices.enumerateDevices().then(devicelist => {
-    // audiooutput 扬声器
-    // audioinput  麦克风
-    // audiooutput 摄像
-    console.log("deviceList", devicelist)
-  }).catch(err => console.log(err))
+navigator.mediaDevices.enumerateDevices().then(devicelist => {
+	// audiooutput 扬声器
+	// audioinput  麦克风
+	// audiooutput 摄像
+	console.log("deviceList", devicelist)
+}).catch(err => {
+	document.getElementById("container").innerHTML = document.getElementById("container").innerHTML + `<div>获取音频设备失败: ${err}</div>`;
+	console.log(err)
+});
 </script>
+	<div id="container">
+		<h1>测试音频设备占用</h1>
+	</div>
+
 </body>
+
 </html>
