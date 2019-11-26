@@ -11,29 +11,67 @@ body { word-break: break-all; margin: 0 1em; min-height: 100vh; font-family: Con
     align-items: center;
 	flex-direction: column;
 }
+button{
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    cursor: pointer;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 </style>
-<script>	
-navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream) {
-	console.log(stream)
-}).catch(function(err) {
-	document.getElementById("container").innerHTML = document.getElementById("container").innerHTML + `<div>获取音频权限失败: ${err}</div>`;
-	console.log(err)
-});
- 
-navigator.mediaDevices.enumerateDevices().then(devicelist => {
-	// audiooutput 扬声器
-	// audioinput  麦克风
-	// audiooutput 摄像
-	console.log("deviceList", devicelist)
-}).catch(err => {
-	document.getElementById("container").innerHTML = document.getElementById("container").innerHTML + `<div>获取音频设备失败: ${err}</div>`;
-	console.log(err)
-});
-</script>
+
 	<div id="container">
 		<h1>测试音频设备占用</h1>
 	</div>
+	<audio id="audio"></audio>
+<script>	
+	var mediaStream = null;
+	var container = document.getElementById("container");
+	navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream) {
+		container.innerHTML = container.innerHTML + `<div>已获取音频设备权限</div> <button onclick="stopAudio(this)">停止</button>`;
+		mediaStream = stream;
+		var audio = document.getElementById("audio");
+		audio.src = window.URL.createObjectURL(stream);
+		console.log(stream)
+	}).catch(function(err) {
+		container.innerHTML = container.innerHTML + `<div>获取音频权限失败: ${err}</div>`;
+		console.log(err)
+	});
+	 
+	navigator.mediaDevices.enumerateDevices().then(devicelist => {
+		// audiooutput 扬声器
+		// audioinput  麦克风
+		// audiooutput 摄像
+		console.log("deviceList", devicelist)
+	}).catch(err => {
+		container.innerHTML = container.innerHTML + `<div>获取音频设备失败: ${err}</div>`;
+		console.log(err)
+	});
 
+	function stopAudio(e){
+		mediaStream && mediaStream.getAudioTracks().map((audioTrack)=>audioTrack.stop());
+		e.innerText = "已停止";		
+	}
+	function startAudio(){
+		navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream) {
+			mediaStream = stream;			
+		}).catch(function(err) {
+			console.log(err)
+		});
+		this.interText = "停止";
+		this.onclick=stopAudio;
+	}
+</script>
 </body>
 
 </html>
